@@ -66,6 +66,7 @@ function init_db_myplugin() {
         position mediumint(9) NOT NULL,
         nominee mediumint(9) NOT NULL,
         nominator mediumint(9) NOT NULL,
+        accepted boolean NOT NULL,
         PRIMARY KEY  (id)
     ) $charset_collate;";
 
@@ -74,6 +75,57 @@ function init_db_myplugin() {
     dbDelta( $sql_nominations );
 }
 
-function render_shortcode() [
+function render_shortcode() {
 
-]
+    // Need query to fetch current members from CiviCRM
+    // Need query to fetch current nominations from database
+    // Need query to fetch list of positions from database
+
+    $Content = <<<START
+        <div class="eotb-nominations">
+            <h3>Election Nominations</h3>
+            <table>
+                <thead>
+                    <th>Nominee</th>
+                    <th>Position</th>
+                    <th>Nominator</th>
+                    <th>Accepted</th>
+                </thead>
+                <tbody>
+    START;
+
+
+    $Content .= <<<TABLE_END
+                </tbody>
+            </table>
+            <form id="eotb-nomination-form" action="" method="post">
+    TABLE_END;
+
+    $Content .= <<<FORM_START
+                <label for="nominee">Nominee</label>
+                <input type="select" id="nominee">
+    FORM_START;
+
+    // Add the foreach to add nominee options here...
+
+    $Content .= <<<FIELD_DIV
+                </input>
+                <br>
+                <label for="position">Position</label>
+                <input type="select" id="position">
+    FIELD_DIV;
+
+    // Add the foreach to add position options here...
+    
+    $Content .= <<<FIELD_CLOSE
+                </input>
+    FIELD_CLOSE;
+
+    $Content .= <<<END
+            </form>
+        </div>
+    END;
+
+    return $Content;
+
+}
